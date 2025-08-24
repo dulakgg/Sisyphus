@@ -1,6 +1,6 @@
-#include <Geode/binding/GJBaseGameLayer.hpp>
 #include <Geode/Geode.hpp>
-#include <Geode/binding/FMODAudioEngine.hpp>
+#include <Geode/modify/GJBaseGameLayer.hpp>
+#include <Geode/modify/FMODAudioEngine.hpp>
 
 using namespace geode::prelude;
 
