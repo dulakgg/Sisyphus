@@ -11,7 +11,6 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
     };
 	bool init() {
 		if (!GJBaseGameLayer::init()) return false;
-		m_fields->channel =  FMODAudioEngine::sharedEngine()->getNextChannelID();
 		return true;
 	}
 	
