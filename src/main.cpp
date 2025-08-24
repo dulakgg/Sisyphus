@@ -18,7 +18,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 	void createPlayer() {
 		int howManyDeaths = Mod::get()->getSettingValue<int64_t>("how-many-deaths");
 		int currentAttempts = this->m_attempts;
-		if (currentAttempts == howManyDeaths && m_fields->!playing) {
+		if (currentAttempts == howManyDeaths && m_fields->playing == false) {
 			m_fields->playing = true;
 			FMODAudioEngine::sharedEngine()->playMusic("Sisyphus.mp3", true, 0.0f, m_fields->channel);
 		}
