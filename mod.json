@@ -14,5 +14,10 @@
 	"links": {
 		"source": "https://github.com/dulakgg/Sisyphus"
 	},
-	"tags": ["joke", "offline", "enhancement"]
+	"tags": ["joke", "offline", "enhancement"],
+	"resources": {
+		"sprites": [
+			"res/*.png"
+		]
+	}
 }
