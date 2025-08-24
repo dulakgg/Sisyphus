@@ -1,14 +1,18 @@
 {
-	"geode": "$GEODE_VERSION",
+	"geode": "4.7.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
 		"mac": "2.2074",
 		"ios": "2.2074"
 	},
-	"id": "$MOD_ID",
-	"name": "$MOD_NAME",
-	"version": "$MOD_VERSION",
-	"developer": "$MOD_DEVELOPER",
-	"description": "$MOD_DESCRIPTION"
+	"id": "dulak.sisyphus",
+	"name": "Sisyphus",
+	"version": "v1.0.2",
+	"developer": "Dulak",
+	"description": "Plays sisyphus music when sisyphus",
+	"links": {
+		"source": "https://github.com/dulakgg/Sisyphus"
+	},
+	"tags": ["joke", "offline", "enhancement"]
 }
