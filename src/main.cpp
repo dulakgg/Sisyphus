@@ -32,7 +32,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 		int currentAttempts = this->m_attempts;
 		if (currentAttempts == howManyDeaths && MusicState::playing == false) {
 			MusicState::playing = true;
-			FMODAudioEngine::sharedEngine()->playMusic("Sisyphus.mp3", true, 0,0f, MusicState::channel);
+			FMODAudioEngine::sharedEngine()->playMusic("Sisyphus.mp3", true, 0.0f, MusicState::channel);
 		}
 		PlayLayer::destroyPlayer(p0, p1);
 	}
