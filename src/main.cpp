@@ -5,14 +5,16 @@
 using namespace geode::prelude;
 
 class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
-	int channel;
+	struct Fields {
+        int channel = 0;
+        bool playing = false;
+    };
 	bool init() {
 		if (!GJBaseGameLayer::init()) return false;
 		channel =  FMODAudioEngine::sharedEngine()->getNextChannelID();
 		return true;
 	}
 	
-	bool playing = false;
 	void destroyPlayer(PlayerObject* p0, GameObject* p1) {
 		int howManyDeaths = Mod::get()->getSettingValue<int64_t>("how-many-deaths");
 		int currentAttempts = this->m_attempts;
