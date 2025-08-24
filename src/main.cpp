@@ -11,7 +11,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
     };
 	bool init() {
 		if (!GJBaseGameLayer::init()) return false;
-		channel =  FMODAudioEngine::sharedEngine()->getNextChannelID();
+		m_fields->channel =  FMODAudioEngine::sharedEngine()->getNextChannelID();
 		return true;
 	}
 	
@@ -19,7 +19,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 		int howManyDeaths = Mod::get()->getSettingValue<int64_t>("how-many-deaths");
 		int currentAttempts = this->m_attempts;
 		if (currentAttempts == howManyDeaths && !playing) {
-			playing = true;
+			m_fields->playing = true;
 			FMODAudioEngine::sharedEngine()->playMusic("Sisyphus.mp3", true, 0.0f, channel);
 		}
 		GJBaseGameLayer::destroyPlayer(p0, p1);
@@ -27,7 +27,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 	void checkpointActivated(CheckpointGameObject* p0) {
 		if (playing) {
 			FMODAudioEngine::sharedEngine()->pauseMusic(channel);
-			playing = false;
+			m_fields->playing = false;
 		}
 		GJBaseGameLayer::checkpointActivated(p0);
 	}
