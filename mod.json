@@ -8,7 +8,7 @@
 	},
 	"id": "dulak.sisyphus",
 	"name": "Sisyphus",
-	"version": "v1.0.2",
+	"version": "v1.0.0",
 	"developer": "Dulak",
 	"description": "Plays sisyphus music when sisyphus",
 	"links": {
@@ -16,8 +16,8 @@
 	},
 	"tags": ["joke", "offline", "enhancement"],
 	"resources": {
-		"sprites": [
-			"res/*.png"
+		"files": [
+			"res/*.mp3"
 		]
 	},
 	 "settings": {
