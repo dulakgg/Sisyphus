@@ -121,7 +121,7 @@ class $modify(MyPlayLayer, PlayLayer) {
     void destroyPlayer(PlayerObject* p0, GameObject* p1) {
         int howManyDeaths = Mod::get()->getSettingValue<int64_t>("how-many-deaths");
         int currentAttempts = this->m_attempts;
-        if (howManyDeaths > 0 && currentAttempts % howManyDeaths == 0 && !MusicState::playing && MusicState::isPlatformer) {
+        if (currentAttempts > 0 && howManyDeaths > 0 && currentAttempts % howManyDeaths == 0 && !MusicState::playing && MusicState::isPlatformer) {
             if (MusicState::system && MusicState::sound) {
                 MusicState::system->playSound(MusicState::sound, nullptr, true, &MusicState::channel);
                 if (MusicState::channel) {
