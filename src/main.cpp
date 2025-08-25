@@ -34,10 +34,10 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
         }
 
         if (MusicState::system && !MusicState::sound) {
-            MusicState::system - > createSound("Sisyphus.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound);
-			MusicState::system - > createSound("Sisyphus2.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound2);
-			MusicState::system - > createSound("Sisyphus3.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound3);
-			MusicState::system - > createSound("Sisyphus4.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound4);
+            MusicState::system->createSound("Sisyphus.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound);
+			MusicState::system->createSound("Sisyphus2.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound2);
+			MusicState::system->createSound("Sisyphus3.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound3);
+			MusicState::system->createSound("Sisyphus4.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound4);
         }
         return true;
     }
