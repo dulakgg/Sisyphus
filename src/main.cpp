@@ -46,6 +46,10 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
         }
         GJBaseGameLayer::checkpointActivated(p0);
     }
+    void onExit() {
+        FMODAudioEngine::get()->stopEffect(effectId);
+        GJBaseGameLayer::onExit();
+    }
 };
 
 class $modify(MyPlayLayer, PlayLayer) {
