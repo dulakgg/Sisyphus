@@ -20,7 +20,7 @@
 			"res/*.mp3"
 		],
 		"sprites": [
-			"res/*.png"
+			"res/*.jpeg"
 		]
 	},
 	 "settings": {
