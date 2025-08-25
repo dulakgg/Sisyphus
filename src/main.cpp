@@ -2,6 +2,7 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <Geode/modify/FMODAudioEngine.hpp>
 #include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/PlayerObject.hpp>
 #include <fmod.hpp>
 #include <cocos2d.h>
 
@@ -103,8 +104,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
         MusicState::playing = false;
         GJBaseGameLayer::onExit();
     }
-}
-;
+};
 
 class $modify(MyPlayLayer, PlayLayer) {
 
@@ -168,6 +168,9 @@ class $modify(MyPlayLayer, PlayLayer) {
             MusicState::fadingImage = true;
             auto winSize = CCDirector::sharedDirector()->getWinSize();
             auto sprite = CCSprite::create("Sisyphus_overlay.png");
+            float scaleRatio = (winSize.height / sprite->getContentSize().height);
+            sprite->setScaleX(scaleRatio);
+            sprite->setScaleY(scaleRatio);
             sprite->setOpacity(0);
             sprite->setPosition( {
                 winSize.width / 2, winSize.height / 2
@@ -179,15 +182,18 @@ class $modify(MyPlayLayer, PlayLayer) {
         }
         PlayLayer::postUpdate(dt);
     }
+};
 
-    void pushButton(int id, bool p1) {
-        PlayLayer::pushButton(id, p1);
-
+class $modify(PlayerObject) {
+    void pushButton(PlayerButton p0) {
+        
         if (MusicState::overlaySprite) {
             MusicState::overlaySprite->removeFromParent();
             MusicState::overlaySprite = nullptr;
             MusicState::fadingImage = false;
             MusicState::idleTimer = 0.f;
         }
+        
+        PlayerObject::pushButton(p0);
     }
 };
