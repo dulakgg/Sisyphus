@@ -34,21 +34,10 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
         }
 
         if (MusicState::system && !MusicState::sound) {
-            auto fu = cocos2d::FileUtils::getInstance();
-            std::string p1 = fu->fullPathForFilename("Sisyphus.mp3");
-            std::string p2 = fu->fullPathForFilename("Sisyphus2.mp3");
-            std::string p3 = fu->fullPathForFilename("Sisyphus3.mp3");
-            std::string p4 = fu->fullPathForFilename("Sisyphus4.mp3");
-
-            FMOD_RESULT res;
-            res = MusicState::system->createSound(p1.c_str(), FMOD_DEFAULT, nullptr, &MusicState::sound);
-            if (res == FMOD_OK) MusicState::sound->setMode(FMOD_LOOP_NORMAL);
-            res = MusicState::system->createSound(p2.c_str(), FMOD_DEFAULT, nullptr, &MusicState::sound2);
-            if (res == FMOD_OK) MusicState::sound2->setMode(FMOD_LOOP_NORMAL);
-            res = MusicState::system->createSound(p3.c_str(), FMOD_DEFAULT, nullptr, &MusicState::sound3);
-            if (res == FMOD_OK) MusicState::sound3->setMode(FMOD_LOOP_NORMAL);
-            res = MusicState::system->createSound(p4.c_str(), FMOD_DEFAULT, nullptr, &MusicState::sound4);
-            if (res == FMOD_OK) MusicState::sound4->setMode(FMOD_LOOP_NORMAL);
+            MusicState::system - > createSound("Sisyphus.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound);
+			MusicState::system - > createSound("Sisyphus2.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound2);
+			MusicState::system - > createSound("Sisyphus3.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound3);
+			MusicState::system - > createSound("Sisyphus4.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound4);
         }
         return true;
     }
