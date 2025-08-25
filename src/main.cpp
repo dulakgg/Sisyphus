@@ -6,8 +6,7 @@
 #include <cocos2d.h>
 
 using namespace geode::prelude;
-
-struct MusicState {
+struct MusicState   {
     static FMOD::System* system;
     static FMOD::Sound* sound;
     static FMOD::Sound* sound2;
@@ -15,9 +14,19 @@ struct MusicState {
     static FMOD::Sound* sound4;
     static FMOD::Channel* channel;
     static bool playing;
-	static bool isPlatformer;
+    static bool isPlatformer;
+    static float idleTimer;
+    static float howLongToFade;
+    static bool fadingImage;
+    static CCSprite* overlaySprite;
+    static float howLongIdling;
 };
 
+float MusicState::howLongIdling = Mod::get()->getSettingValue<float>("time-idling");
+float MusicState::howLongToFade = Mod::get()->getSettingValue<float>("time-to-fade");
+float MusicState::idleTimer = 0;
+bool MusicState::fadingImage = false;
+CCSprite* MusicState::overlaySprite = nullptr;
 FMOD::System* MusicState::system = nullptr;
 FMOD::Sound* MusicState::sound = nullptr;
 FMOD::Sound* MusicState::sound2 = nullptr;
@@ -28,30 +37,34 @@ bool MusicState::isPlatformer = false;
 bool MusicState::playing = false;
 
 class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
+
     bool init() {
         if (!GJBaseGameLayer::init()) return false;
 
-		if (this->m_isPlatformer) {
-			MusicState::isPlatformer = true;
-		} 
-		else {
-			MusicState::isPlatformer = false;
-		}
+        if (this->m_isPlatformer) {
+            MusicState::isPlatformer = true;
+        }
+        else  {
+            MusicState::isPlatformer = false;
+        }
+
         if (!MusicState::system) {
             MusicState::system = FMODAudioEngine::sharedEngine()->m_system;
         }
 
         if (MusicState::system && !MusicState::sound) {
             MusicState::system->createSound("Sisyphus.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound);
-			MusicState::system->createSound("Sisyphus2.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound2);
-			MusicState::system->createSound("Sisyphus3.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound3);
-			MusicState::system->createSound("Sisyphus4.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound4);
+            MusicState::system->createSound("Sisyphus2.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound2);
+            MusicState::system->createSound("Sisyphus3.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound3);
+            MusicState::system->createSound("Sisyphus4.mp3", FMOD_DEFAULT, nullptr, & MusicState::sound4);
         }
         return true;
     }
 
     void checkpointActivated(CheckpointGameObject* p0) {
+
         if (MusicState::playing) {
+
             if (MusicState::channel) {
                 MusicState::channel->setPosition(0, FMOD_TIMEUNIT_MS);
                 MusicState::channel->setPaused(true);
@@ -62,22 +75,27 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
     }
 
     void onExit() {
+
         if (MusicState::channel) {
             MusicState::channel->stop();
             MusicState::channel = nullptr;
         }
+
         if (MusicState::sound) {
             MusicState::sound->release();
             MusicState::sound = nullptr;
         }
+
         if (MusicState::sound2) {
             MusicState::sound2->release();
             MusicState::sound2 = nullptr;
         }
+
         if (MusicState::sound3) {
             MusicState::sound3->release();
             MusicState::sound3 = nullptr;
         }
+
         if (MusicState::sound4) {
             MusicState::sound4->release();
             MusicState::sound4 = nullptr;
@@ -85,45 +103,55 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
         MusicState::playing = false;
         GJBaseGameLayer::onExit();
     }
-};
+}
+;
 
 class $modify(MyPlayLayer, PlayLayer) {
+
     void togglePracticeMode(bool practiceMode) {
+
         if (!MusicState::system) {
             PlayLayer::togglePracticeMode(practiceMode);
             return;
         }
 
-        if (practiceMode) { 
+        if (practiceMode) {
+
             if (MusicState::channel) {
                 MusicState::channel->stop();
                 MusicState::channel = nullptr;
                 MusicState::playing = false;
             }
+
             if (MusicState::sound2) {
                 MusicState::system->playSound(MusicState::sound2, nullptr, true, &MusicState::channel);
+
                 if (MusicState::channel) {
                     MusicState::channel->setPaused(false);
                     MusicState::playing = true;
                 }
             }
-        } else {
+        }
+        else  {
+
             if (MusicState::channel) {
                 MusicState::channel->stop();
                 MusicState::channel = nullptr;
             }
             MusicState::playing = false;
         }
-
         PlayLayer::togglePracticeMode(practiceMode);
     }
 
     void destroyPlayer(PlayerObject* p0, GameObject* p1) {
         int howManyDeaths = Mod::get()->getSettingValue<int64_t>("how-many-deaths");
         int currentAttempts = this->m_attempts;
+
         if (currentAttempts > 0 && howManyDeaths > 0 && currentAttempts % howManyDeaths == 0 && !MusicState::playing && MusicState::isPlatformer) {
+
             if (MusicState::system && MusicState::sound) {
                 MusicState::system->playSound(MusicState::sound, nullptr, true, &MusicState::channel);
+
                 if (MusicState::channel) {
                     MusicState::channel->setPaused(false);
                     MusicState::playing = true;
@@ -131,5 +159,35 @@ class $modify(MyPlayLayer, PlayLayer) {
             }
         }
         PlayLayer::destroyPlayer(p0, p1);
+    }
+
+    void postUpdate(float dt) {
+        MusicState::idleTimer += dt;
+
+        if (MusicState::idleTimer >= MusicState::howLongIdling && !MusicState::fadingImage) {
+            MusicState::fadingImage = true;
+            auto winSize = CCDirector::sharedDirector()->getWinSize();
+            auto sprite = CCSprite::create("Sisyphus_overlay.png");
+            sprite->setOpacity(0);
+            sprite->setPosition( {
+                winSize.width / 2, winSize.height / 2
+            }
+            );
+            this->addChild(sprite, 1000);
+            sprite->runAction(CCFadeIn::create(MusicState::howLongToFade));
+            MusicState::overlaySprite = sprite;
+        }
+        PlayLayer::postUpdate(dt);
+    }
+
+    void pushButton(int id, bool p1) {
+        PlayLayer::pushButton(id, p1);
+
+        if (MusicState::overlaySprite) {
+            MusicState::overlaySprite->removeFromParent();
+            MusicState::overlaySprite = nullptr;
+            MusicState::fadingImage = false;
+            MusicState::idleTimer = 0.f;
+        }
     }
 };
