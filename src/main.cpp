@@ -15,6 +15,7 @@ struct MusicState {
     static FMOD::Sound* sound4;
     static FMOD::Channel* channel;
     static bool playing;
+	static bool isPlatformer;
 };
 
 FMOD::System* MusicState::system = nullptr;
@@ -23,12 +24,19 @@ FMOD::Sound* MusicState::sound2 = nullptr;
 FMOD::Sound* MusicState::sound3 = nullptr;
 FMOD::Sound* MusicState::sound4 = nullptr;
 FMOD::Channel* MusicState::channel = nullptr;
+bool MusicState::isPlatformer = false;
 bool MusicState::playing = false;
 
 class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
     bool init() {
         if (!GJBaseGameLayer::init()) return false;
 
+		if (this->m_isPlatformer) {
+			MusicState::isPlatformer = true;
+		} 
+		else {
+			MusicState::isPlatformer = false;
+		}
         if (!MusicState::system) {
             MusicState::system = FMODAudioEngine::sharedEngine()->m_system;
         }
@@ -113,7 +121,7 @@ class $modify(MyPlayLayer, PlayLayer) {
     void destroyPlayer(PlayerObject* p0, GameObject* p1) {
         int howManyDeaths = Mod::get()->getSettingValue<int64_t>("how-many-deaths");
         int currentAttempts = this->m_attempts;
-        if (howManyDeaths > 0 && currentAttempts % howManyDeaths == 0 && !MusicState::playing) {
+        if (howManyDeaths > 0 && currentAttempts % howManyDeaths == 0 && !MusicState::playing && MusicState::isPlatformer) {
             if (MusicState::system && MusicState::sound) {
                 MusicState::system->playSound(MusicState::sound, nullptr, true, &MusicState::channel);
                 if (MusicState::channel) {
