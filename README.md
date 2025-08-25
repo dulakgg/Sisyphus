@@ -1,23 +1,12 @@
-# Template
-This is where she makes a mod.
-
 <img src="logo.png" width="150" alt="the mod's logo" />
+# Sisyphus
+- This mod plays Sisyphus music when you die many times at the same checkpoint.
+- Rare songs will occasionally play.
+- When you idle, a Sisyphus image will appear.
+- If you accidentally enter practice mode or fully reset the level while the Sisyphus music is playing… prepare for a jumpscare.
 
-*Update logo.png to change your mod's icon (please)*
+# This mod story
 
-## Getting started
-We recommend heading over to [the getting started section on our docs](https://docs.geode-sdk.org/getting-started/) for useful info on what to do next.
+kitteninabowl messaged me with a great idea: a Sisyphus mod that plays Sisyphus audio after the player dies a certain number of times. I said it was a great idea and that I’d make it once my PC was back from warranty. Then it hit me — what better way to make a Sisyphus mod than to live the experience?
 
-## Build instructions
-For more info, see [our docs](https://docs.geode-sdk.org/getting-started/create-mod#build)
-```sh
-# Assuming you have the Geode CLI set up already
-geode build
-```
-
-# Resources
-* [Geode SDK Documentation](https://docs.geode-sdk.org/)
-* [Geode SDK Source Code](https://github.com/geode-sdk/geode/)
-* [Geode CLI](https://github.com/geode-sdk/cli)
-* [Bindings](https://github.com/geode-sdk/bindings/)
-* [Dev Tools](https://github.com/geode-sdk/DevTools)
+So I built the mod on an Xbox using Microsoft Edge and GitHub (no Intelephense), with occasional edits from my phone. kitteninabowl was my tester. It was truly Sisyphean to make — painful in all the right ways — and you can judge by INSERT_COMMITS_NUMBER commits and INSERT_WORKFLOW_RUNS_NUMBER workflow runs. But here we are: it’s finally done. :)
