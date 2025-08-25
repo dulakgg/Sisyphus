@@ -1,5 +1,6 @@
 <img src="logo.png" width="150" alt="the mod's logo" />
 # Sisyphus
+
 - This mod plays Sisyphus music when you die many times at the same checkpoint.
 - Rare songs will occasionally play.
 - When you idle, a Sisyphus image will appear.
