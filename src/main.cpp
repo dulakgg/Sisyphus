@@ -41,13 +41,13 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 
     void checkpointActivated(CheckpointGameObject* p0) {
         if (MusicState::playing) {
-            FMODAudioEngine::get()->stopEffect(effectId);
+            FMODAudioEngine::get()->stopEffect(MusicState::effectId);
             MusicState::playing = false;
         }
         GJBaseGameLayer::checkpointActivated(p0);
     }
     void onExit() {
-        FMODAudioEngine::get()->stopEffect(effectId);
+        FMODAudioEngine::get()->stopEffect(MusicState::effectId);
         GJBaseGameLayer::onExit();
     }
 };
@@ -56,8 +56,8 @@ class $modify(MyPlayLayer, PlayLayer) {
     void togglePracticeMode(bool practiceMode) {
         if (practiceMode) {
             if (MusicState::playing) {
-                FMODAudioEngine::get()->stopEffect(effectId);
-                effectId = FMODAudioEngine::get()->playEffect("Sisyphus2.mp3");
+                FMODAudioEngine::get()->stopEffect(MusicState::effectId);
+                MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus2.mp3");
             }
         }
         PlayLayer::togglePracticeMode(practiceMode);
@@ -65,8 +65,8 @@ class $modify(MyPlayLayer, PlayLayer) {
 
     void fullReset() {
         if (MusicState::playing) {
-            FMODAudioEngine::get()->stopEffect(effectId);
-            effectId = FMODAudioEngine::get()->playEffect("Sisyphus2.mp3");
+            FMODAudioEngine::get()->stopEffect(MusicState::effectId);
+            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus2.mp3");
         }
         PlayLayer::fullReset();
     }
@@ -75,7 +75,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         int howManyDeaths = Mod::get()->getSettingValue<int64_t>("how-many-deaths");
         int currentAttempts = this->m_attempts;
         if (currentAttempts > 0 && howManyDeaths > 0 && currentAttempts % howManyDeaths == 0 && !MusicState::playing && MusicState::isPlatformer) {
-            effectId = FMODAudioEngine::get()->playEffect("Sisyphus.mp3");
+            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus.mp3");
             MusicState::playing = true;
         }
         PlayLayer::destroyPlayer(p0, p1);
