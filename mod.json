@@ -18,6 +18,9 @@
 	"resources": {
 		"files": [
 			"res/*.mp3"
+		],
+		"sprites": [
+			"res/*.png"
 		]
 	},
 	 "settings": {
@@ -30,6 +33,26 @@
             "control": {
                 "slider": true
             }
-        }
+        },
+		"time-idling": {
+			"name": "Time idling",
+            "type": "float",
+            "default": 20,
+            "min": 1,
+            "max": 100,
+            "control": {
+                "slider": true
+            }
+		},
+		"time-to-fade": {
+			"name": "Time to fade in",
+            "type": "float",
+            "default": 25,
+            "min": 1,
+            "max": 100,
+            "control": {
+                "slider": true
+            }
+		}
 	 }
 }
