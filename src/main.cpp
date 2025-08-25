@@ -48,7 +48,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
         GJBaseGameLayer::checkpointActivated(p0);
     }
     void onExit() {
-        MusicState::effectId = FMODAudioEngine::get()->pauseEffect("Sisyphus.mp3");
+        FMODAudioEngine::get()->pauseEffect(MusicState::effectId);
         MusicState::effectId = -1;
         GJBaseGameLayer::onExit();
     }
