@@ -130,10 +130,6 @@ class $modify(MyPlayLayer, PlayLayer) {
     }
 
     void fullReset() {
-        if (!MusicState::system) {
-            PlayLayer::togglePracticeMode(practiceMode);
-            return;
-        }
         if (MusicState::channel) {
             MusicState::channel->stop();
             MusicState::channel = nullptr;
