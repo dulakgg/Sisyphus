@@ -167,7 +167,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         if (MusicState::idleTimer >= MusicState::howLongIdling && !MusicState::fadingImage) {
             MusicState::fadingImage = true;
             auto winSize = CCDirector::sharedDirector()->getWinSize();
-            auto sprite = CCSprite::create("Sisyphus_overlay.png");
+            auto sprite = CCSprite::create("IMG_1184.jpeg");
             float scaleRatio = (winSize.height / sprite->getContentSize().height);
             sprite->setScaleX(scaleRatio);
             sprite->setScaleY(scaleRatio);
