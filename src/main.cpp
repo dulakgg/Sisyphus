@@ -41,13 +41,15 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 
     void checkpointActivated(CheckpointGameObject* p0) {
         if (MusicState::playing) {
-            FMODAudioEngine::get()->stopEffect(MusicState::effectId);
+            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus.mp3");
+            FMODAudioEngine::get()->pauseEffect(MusicState::effectId);
             MusicState::playing = false;
         }
         GJBaseGameLayer::checkpointActivated(p0);
     }
     void onExit() {
-        FMODAudioEngine::get()->stopEffect(MusicState::effectId);
+        MusicState::effectId = FMODAudioEngine::get()->pauseEffect("Sisyphus.mp3");
+        MusicState::effectId = -1;
         GJBaseGameLayer::onExit();
     }
 };
@@ -56,7 +58,6 @@ class $modify(MyPlayLayer, PlayLayer) {
     void togglePracticeMode(bool practiceMode) {
         if (practiceMode) {
             if (MusicState::playing) {
-                FMODAudioEngine::get()->stopEffect(MusicState::effectId);
                 MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus2.mp3");
             }
         }
@@ -65,7 +66,6 @@ class $modify(MyPlayLayer, PlayLayer) {
 
     void fullReset() {
         if (MusicState::playing) {
-            FMODAudioEngine::get()->stopEffect(MusicState::effectId);
             MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus2.mp3");
         }
         PlayLayer::fullReset();
