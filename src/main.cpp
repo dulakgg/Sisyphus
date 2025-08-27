@@ -58,7 +58,7 @@ class $modify(MyPlayLayer, PlayLayer) {
     void togglePracticeMode(bool practiceMode) {
         if (practiceMode) {
             if (MusicState::playing) {
-                MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus2.mp3");
+                MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus1.mp3");
             }
         }
         PlayLayer::togglePracticeMode(practiceMode);
@@ -66,7 +66,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 
     void fullReset() {
         if (MusicState::playing) {
-            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus2.mp3");
+            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus1.mp3");
         }
         PlayLayer::fullReset();
     }
