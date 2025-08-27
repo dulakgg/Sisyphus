@@ -19,8 +19,8 @@ struct MusicState   {
 };
 
 int MusicState::effectId = -1;
-float MusicState::howLongIdling = Mod::get()->getSettingValue<float>("time-idling");
-float MusicState::howLongToFade = Mod::get()->getSettingValue<float>("time-to-fade");
+float MusicState::howLongIdling = 0.f;
+float MusicState::howLongToFade = 0.f;
 float MusicState::idleTimer = 0;
 bool MusicState::fadingImage = false;
 CCSprite* MusicState::overlaySprite = nullptr;
@@ -36,6 +36,8 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
         else  {
             MusicState::isPlatformer = false;
         }
+        MusicState::howLongIdling = Mod::get()->getSettingValue<float>("time-idling");
+        MusicState::howLongToFade = Mod::get()->getSettingValue<float>("time-to-fade");
         return true;
     }
 
@@ -48,8 +50,16 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
         GJBaseGameLayer::checkpointActivated(p0);
     }
     void onExit() {
-        FMODAudioEngine::get()->pauseEffect(MusicState::effectId);
-        MusicState::effectId = -1;
+        if (MusicState::effectId != -1) {
+            FMODAudioEngine::get()->pauseEffect(MusicState::effectId); 
+            MusicState::effectId = -1;
+        }
+        if (MusicState::overlaySprite) {
+            MusicState::overlaySprite->removeFromParent();
+            MusicState::overlaySprite = nullptr;
+        }
+        MusicState::fadingImage = false;
+        MusicState::idleTimer = 0.f;
         GJBaseGameLayer::onExit();
     }
 };
@@ -84,23 +94,26 @@ class $modify(MyPlayLayer, PlayLayer) {
     void levelComplete() {
         auto winSize = CCDirector::sharedDirector()->getWinSize();
         auto sprite = CCSprite::create("Completion_sisyphus.png");
-        float scaleRatio = (winSize.height / sprite->getContentSize().height);
+        if (!sprite) { return; }
+        auto content = sprite->getContentSize();
+        if (content.height <= 0.0f) return;
+        float scaleRatio = (winSize.height / content.height);
+        sprite->setScale(scaleRatio);
         sprite->setScaleX(scaleRatio);
         sprite->setScaleY(scaleRatio);
         sprite->setOpacity(0);
         sprite->setPosition( {winSize.width / 2, winSize.height / 2} );
         this->addChild(sprite, 1000);
-        sprite->runAction(CCFadeIn::create(3));
-        sprite->runAction(CCFadeOut::create(1));
+        sprite->runAction(CCSequence::create( CCFadeIn::create(3.0f), CCFadeOut::create(1.0f), CCCallFuncN::create(sprite, callfuncN_selector(CCNode::removeFromParent)), nullptr ));
         PlayLayer::levelComplete();
     }
 
     void postUpdate(float dt) {
         MusicState::idleTimer += dt;
         if (MusicState::idleTimer >= MusicState::howLongIdling && !MusicState::fadingImage) {
-            MusicState::fadingImage = true;
             auto winSize = CCDirector::sharedDirector()->getWinSize();
             auto sprite = CCSprite::create("IMG_1184.jpeg");
+            if (!sprite) return;
             float scaleRatio = (winSize.height / sprite->getContentSize().height);
             sprite->setScaleX(scaleRatio);
             sprite->setScaleY(scaleRatio);
@@ -109,6 +122,7 @@ class $modify(MyPlayLayer, PlayLayer) {
             this->addChild(sprite, 1000);
             sprite->runAction(CCFadeIn::create(MusicState::howLongToFade));
             MusicState::overlaySprite = sprite;
+            MusicState::fadingImage = true;
         }
         PlayLayer::postUpdate(dt);
     }
