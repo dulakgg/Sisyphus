@@ -108,33 +108,33 @@ class $modify(MyPlayLayer, PlayLayer) {
         PlayLayer::levelComplete();
     }
 
-    void postUpdate(float dt) {
-        PlayLayer::postUpdate(dt);
-        MusicState::idleTimer += dt;
-        if (MusicState::idleTimer >= MusicState::howLongIdling && !MusicState::fadingImage) {
-            auto winSize = CCDirector::sharedDirector()->getWinSize();
-            auto sprite = CCSprite::create("stop.png");
-            if (!sprite) return;
-            float scaleRatio = (winSize.height / sprite->getContentSize().height);
-            sprite->setScaleX(scaleRatio);
-            sprite->setScaleY(scaleRatio);
-            sprite->setOpacity(0);
-            sprite->setPosition( {winSize.width / 2, winSize.height / 2} );
-            this->addChild(sprite, 1000);
-            sprite->runAction(CCFadeIn::create(MusicState::howLongToFade));
-            MusicState::overlaySprite = sprite;
-            MusicState::fadingImage = true;
-        }
-    }
+    // void postUpdate(float dt) {
+    //     PlayLayer::postUpdate(dt);
+    //     MusicState::idleTimer += dt;
+    //     if (MusicState::idleTimer >= MusicState::howLongIdling && !MusicState::fadingImage) {
+    //         auto winSize = CCDirector::sharedDirector()->getWinSize();
+    //         auto sprite = CCSprite::create("stop.png");
+    //         if (!sprite) return;
+    //         float scaleRatio = (winSize.height / sprite->getContentSize().height);
+    //         sprite->setScaleX(scaleRatio);
+    //         sprite->setScaleY(scaleRatio);
+    //         sprite->setOpacity(0);
+    //         sprite->setPosition( {winSize.width / 2, winSize.height / 2} );
+    //         this->addChild(sprite, 1000);
+    //         sprite->runAction(CCFadeIn::create(MusicState::howLongToFade));
+    //         MusicState::overlaySprite = sprite;
+    //         MusicState::fadingImage = true;
+    //     }
+    // }
 };
-class $modify(PlayerObject) {
-    void pushButton(PlayerButton p0) {
-        if (MusicState::overlaySprite) {
-            MusicState::overlaySprite->removeFromParent();
-            MusicState::overlaySprite = nullptr;
-            MusicState::fadingImage = false;
-            MusicState::idleTimer = 0.f;
-        }
-        PlayerObject::pushButton(p0);
-    }
-};
+// class $modify(PlayerObject) {
+//     void pushButton(PlayerButton p0) {
+//         if (MusicState::overlaySprite) {
+//             MusicState::overlaySprite->removeFromParent();
+//             MusicState::overlaySprite = nullptr;
+//             MusicState::fadingImage = false;
+//             MusicState::idleTimer = 0.f;
+//         }
+//         PlayerObject::pushButton(p0);
+//     }
+// };
