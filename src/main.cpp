@@ -81,6 +81,20 @@ class $modify(MyPlayLayer, PlayLayer) {
         PlayLayer::destroyPlayer(p0, p1);
     }
 
+    void levelComplete() {
+        auto winSize = CCDirector::sharedDirector()->getWinSize();
+        auto sprite = CCSprite::create("Completion_sisyphus.png");
+        float scaleRatio = (winSize.height / sprite->getContentSize().height);
+        sprite->setScaleX(scaleRatio);
+        sprite->setScaleY(scaleRatio);
+        sprite->setOpacity(0);
+        sprite->setPosition( {winSize.width / 2, winSize.height / 2} );
+        this->addChild(sprite, 1000);
+        sprite->runAction(CCFadeIn::create(3));
+        sprite->runAction(CCFadeOut::create(1));
+        PlayLayer::levelComplete();
+    }
+
     void postUpdate(float dt) {
         MusicState::idleTimer += dt;
         if (MusicState::idleTimer >= MusicState::howLongIdling && !MusicState::fadingImage) {
