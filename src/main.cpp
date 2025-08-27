@@ -93,7 +93,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 
     void levelComplete() {
         auto winSize = CCDirector::sharedDirector()->getWinSize();
-        auto sprite = CCSprite::create("Completion_sisyphus.png");
+        auto sprite = CCSprite::create("its_over.png");
         if (!sprite) { return; }
         auto content = sprite->getContentSize();
         if (content.height <= 0.0f) return;
@@ -112,7 +112,7 @@ class $modify(MyPlayLayer, PlayLayer) {
         MusicState::idleTimer += dt;
         if (MusicState::idleTimer >= MusicState::howLongIdling && !MusicState::fadingImage) {
             auto winSize = CCDirector::sharedDirector()->getWinSize();
-            auto sprite = CCSprite::create("IMG_1184.jpeg");
+            auto sprite = CCSprite::create("stop.png");
             if (!sprite) return;
             float scaleRatio = (winSize.height / sprite->getContentSize().height);
             sprite->setScaleX(scaleRatio);
