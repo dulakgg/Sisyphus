@@ -17,9 +17,7 @@
 	"tags": ["joke", "offline", "music"],
 	"resources": {
 		"files": [
-			"res/*.mp3"
-		],
-		"sprites": [
+			"res/*.mp3",
 			"res/*.png"
 		]
 	},
