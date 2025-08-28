@@ -43,7 +43,7 @@ class $modify(MyGJBaseGameLayer, GJBaseGameLayer) {
 
     void checkpointActivated(CheckpointGameObject* p0) {
         if (MusicState::playing) {
-            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus.mp3");
+            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus.mp3"_spr);
             FMODAudioEngine::get()->pauseEffect(MusicState::effectId);
             MusicState::playing = false;
         }
@@ -68,7 +68,7 @@ class $modify(MyPlayLayer, PlayLayer) {
     void togglePracticeMode(bool practiceMode) {
         if (practiceMode) {
             if (MusicState::playing) {
-                MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus1.mp3");
+                MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus1.mp3"_spr);
             }
         }
         PlayLayer::togglePracticeMode(practiceMode);
@@ -76,7 +76,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 
     void fullReset() {
         if (MusicState::playing) {
-            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus1.mp3");
+            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus1.mp3"_spr);
         }
         PlayLayer::fullReset();
     }
@@ -85,28 +85,28 @@ class $modify(MyPlayLayer, PlayLayer) {
         int howManyDeaths = Mod::get()->getSettingValue<int64_t>("how-many-deaths");
         int currentAttempts = this->m_attempts;
         if (currentAttempts > 0 && howManyDeaths > 0 && currentAttempts % howManyDeaths == 0 && !MusicState::playing && MusicState::isPlatformer) {
-            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus.mp3");
+            MusicState::effectId = FMODAudioEngine::get()->playEffect("Sisyphus.mp3"_spr);
             MusicState::playing = true;
         }
         PlayLayer::destroyPlayer(p0, p1);
     }
 
-    void levelComplete() {
-        auto winSize = CCDirector::sharedDirector()->getWinSize();
-        auto sprite = CCSprite::create("its_over.png");
-        if (!sprite) { return; }
-        auto content = sprite->getContentSize();
-        if (content.height <= 0.0f) return;
-        float scaleRatio = (winSize.height / content.height);
-        sprite->setScale(scaleRatio);
-        sprite->setScaleX(scaleRatio);
-        sprite->setScaleY(scaleRatio);
-        sprite->setOpacity(0);
-        sprite->setPosition( {winSize.width / 2, winSize.height / 2} );
-        this->addChild(sprite, 1000);
-        sprite->runAction(CCSequence::create( CCFadeIn::create(3.0f), CCFadeOut::create(1.0f), CCCallFuncN::create(sprite, callfuncN_selector(CCNode::removeFromParent)), nullptr ));
-        PlayLayer::levelComplete();
-    }
+    // void levelComplete() {
+    //     auto winSize = CCDirector::sharedDirector()->getWinSize();
+    //     auto sprite = CCSprite::create("its_over.png");
+    //     if (!sprite) { return; }
+    //     auto content = sprite->getContentSize();
+    //     if (content.height <= 0.0f) return;
+    //     float scaleRatio = (winSize.height / content.height);
+    //     sprite->setScale(scaleRatio);
+    //     sprite->setScaleX(scaleRatio);
+    //     sprite->setScaleY(scaleRatio);
+    //     sprite->setOpacity(0);
+    //     sprite->setPosition( {winSize.width / 2, winSize.height / 2} );
+    //     this->addChild(sprite, 1000);
+    //     sprite->runAction(CCSequence::create( CCFadeIn::create(3.0f), CCFadeOut::create(1.0f), CCCallFuncN::create(sprite, callfuncN_selector(CCNode::removeFromParent)), nullptr ));
+    //     PlayLayer::levelComplete();
+    // }
 
     // void postUpdate(float dt) {
     //     PlayLayer::postUpdate(dt);
